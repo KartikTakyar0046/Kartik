@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from .models import Book
+from .models import Book,Gift
 # Create your views here.
 def home(request):
-    books=Book.objects.all()
-    context={'books':books}
-    return render(request,'index.html',context)
+    gifts=Gift.objects.select_related('book')
+    for g in gifts:
+        print(g.book.price)
+    return render(request,'index.html',context={'gifts':gifts})
